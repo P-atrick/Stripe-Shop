@@ -1,0 +1,25 @@
+.productsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 10px;
+  margin: 0 auto;
+  width: 95%;
+
+  .productCard {
+    margin: 1em 0;
+    min-height: 10em;
+    text-align: center;
+
+    .ant-card-cover img {
+      object-fit: cover;
+      margin: 0 auto;
+      height: 20em;
+      width: 95%;
+    }
+
+    .productName {
+      font-weight: bold;
+      font-size: 1.4em;
+    }
+  }
+}
