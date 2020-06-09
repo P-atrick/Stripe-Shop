@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
-import Axios from 'axios';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
-import { Button } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { AppContext } from '../Context';
 
 export const CheckoutForm = () => {
@@ -29,9 +28,7 @@ export const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log('a')
+  const handleSubmit = async (formData) => {
 
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
@@ -43,7 +40,7 @@ export const CheckoutForm = () => {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
-          name: 'Patrick Kelly',
+          name: `${formData.firstName} ${formData.lastName}`,
         },
       }
     });
@@ -67,11 +64,52 @@ export const CheckoutForm = () => {
 
   return (
     <div style={{border: '1px solid black', marginTop: '20px', padding: '5px'}}>
-      CheckoutForm.jsx
-      <form onSubmit={ handleSubmit }>
+      Payment Details
+      <Form id="myForm" onFinish={ handleSubmit }>
+        <Form.Item
+          label="First Name"
+          name="firstName"
+          rules={[{ required: true, message: 'Please enter your first name' }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Last Name"
+          name="lastName"
+          rules={[{ required: true, message: 'Please enter your last name' }]}
+        >
+          <Input />
+        </Form.Item>
+        
+
+        <Form.Item
+          label="Address"
+          name="address"
+          rules={[{ required: true, message: 'Please enter your address' }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Town"
+          name="town"
+          rules={[{ required: true, message: 'Please enter your town' }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Postcode"
+          name="postcode"
+          rules={[{ required: true, message: 'Please enter your postcode' }]}
+        >
+          <Input />
+        </Form.Item>
+
         <CardElement options={ CARD_ELEMENT_OPTIONS } />
-        <Button disabled={ !stripe || !elements } onClick={ handleSubmit }>Confirm order</Button>
-      </form>
+        <Button disabled={ !stripe || !elements } form="myForm" key="submit" htmlType="submit">Confirm order</Button>
+      </Form>
     </div>
   )
 }
