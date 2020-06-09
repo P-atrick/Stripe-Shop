@@ -41,6 +41,12 @@ export const CheckoutForm = () => {
         card: elements.getElement(CardElement),
         billing_details: {
           name: `${formData.firstName} ${formData.lastName}`,
+          email: `${formData.email}`,
+          address: {
+            line1: `${formData.address}`,
+            town: `${formData.town}`,
+            postal_code: `${formData.postcode}`,
+          }
         },
       }
     });
@@ -63,52 +69,69 @@ export const CheckoutForm = () => {
   
 
   return (
-    <div style={{border: '1px solid black', marginTop: '20px', padding: '5px'}}>
+    <div className='paymentDetailsFormContainer'>
       Payment Details
-      <Form id="myForm" onFinish={ handleSubmit }>
+      <Form
+        className='paymentDetailsForm'
+        id='myForm'
+        onFinish={ handleSubmit }
+      >
         <Form.Item
-          label="First Name"
-          name="firstName"
+          label='First Name'
+          name='firstName'
           rules={[{ required: true, message: 'Please enter your first name' }]}
         >
           <Input />
         </Form.Item>
 
         <Form.Item
-          label="Last Name"
-          name="lastName"
+          label='Last Name'
+          name='lastName'
           rules={[{ required: true, message: 'Please enter your last name' }]}
         >
           <Input />
         </Form.Item>
+
+        <Form.Item
+          label='Email'
+          name='email'
+          rules={[{ required: true, message: 'Please enter your email' }]}
+        >
+          <Input type='email'/>
+        </Form.Item>
         
 
         <Form.Item
-          label="Address"
-          name="address"
+          label='Address'
+          name='address'
           rules={[{ required: true, message: 'Please enter your address' }]}
         >
           <Input />
         </Form.Item>
 
         <Form.Item
-          label="Town"
-          name="town"
+          label='Town'
+          name='town'
           rules={[{ required: true, message: 'Please enter your town' }]}
         >
           <Input />
         </Form.Item>
 
         <Form.Item
-          label="Postcode"
-          name="postcode"
+          label='Postcode'
+          name='postcode'
           rules={[{ required: true, message: 'Please enter your postcode' }]}
         >
           <Input />
         </Form.Item>
 
         <CardElement options={ CARD_ELEMENT_OPTIONS } />
-        <Button disabled={ !stripe || !elements } form="myForm" key="submit" htmlType="submit">Confirm order</Button>
+        <Button
+          disabled={ !stripe || !elements }
+          form='myForm'
+          key='submit'
+          htmlType='submit'
+        >Confirm order</Button>
       </Form>
     </div>
   )

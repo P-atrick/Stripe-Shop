@@ -63,8 +63,11 @@ export const Cart = () => {
         footer={() => `Total Price: £${formatPrice(state.totalPrice)}`}
         pagination={false}
       />
-      <Button onClick={ createPaymentIntent }>Continue</Button>
-      { state.clientSecret ?
+      <Button
+        onClick={ createPaymentIntent }
+        type='primary'
+      >Continue</Button>
+      { state.clientSecret = true?
           <Checkout/>
         :
           null
