@@ -53,7 +53,11 @@ export const Products = () => {
   }
 
   const persistState = (state) => {
-    localStorage.setItem('storeData', JSON.stringify(state));
+    const stateToStore = {
+      cart: state.cart,
+      totalPrice: state.totalPrice
+    }
+    localStorage.setItem('storeData', JSON.stringify(stateToStore));
   }
 
   useEffect(() => {

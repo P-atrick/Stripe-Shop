@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { Button, Form, Input } from 'antd';
 import { AppContext } from '../Context';
@@ -8,6 +9,7 @@ export const CheckoutForm = () => {
 
   const [state, setState] = useContext(AppContext);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const history = useHistory();
 
   const CARD_ELEMENT_OPTIONS = {
     style: {
@@ -55,14 +57,15 @@ export const CheckoutForm = () => {
     });
 
     setPaymentProcessing(false);
-    setState({ ...state, clientSecret: '' });
-
+    
     if (result.error) {
       // Show error to your customer (e.g., insufficient funds)
       console.log(result.error.message);
     } else {
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
+        setState({ ...state, clientSecret: '' });
+        history.push('/ordercomplete');
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
         // execution. Set up a webhook or plugin to listen for the
