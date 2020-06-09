@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Table } from 'antd';
+import Axios from 'axios';
+import { Button, Table } from 'antd';
 import { AppContext } from '../Context';
 import { formatPrice } from './utility/FormatPrice'
 
@@ -40,6 +41,14 @@ export const Cart = () => {
       totalPrice: `£${formatPrice(item[1].totalPrice)}`
     })
   })
+
+  const clickCheckout = () => {
+    Axios
+      .post('/api/checkout', {
+        totalPrice: state.totalPrice
+      })
+      .then(res => console.log(res))
+  }
  
   return (
     <div>
@@ -49,6 +58,7 @@ export const Cart = () => {
         footer={() => `Total Price: £${formatPrice(state.totalPrice)}`}
         pagination={false}
       />
+      <Button onClick={ clickCheckout }>Checkout</Button>
     </div>
   )
 }

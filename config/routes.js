@@ -1,6 +1,8 @@
 const router = require('express').Router();
+const checkout = require('../controllers/checkout');
 
-// routes go here
+router.route('/checkout')
+  .post(checkout.createPaymentIntent)
 
 router.all('/*', (req, res) => res.notFound());
 
