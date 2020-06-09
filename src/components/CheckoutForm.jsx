@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { Button, Form, Input } from 'antd';
 import { AppContext } from '../Context';
+import { CheckoutFormSpinner } from './CheckoutFormSpinner.jsx';
 
 export const CheckoutForm = () => {
 
-  const [state] = useContext(AppContext);
+  const [state, setState] = useContext(AppContext);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
 
   const CARD_ELEMENT_OPTIONS = {
     style: {
@@ -29,6 +31,7 @@ export const CheckoutForm = () => {
   const elements = useElements();
 
   const handleSubmit = async (formData) => {
+    setPaymentProcessing(true);
 
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
@@ -44,12 +47,15 @@ export const CheckoutForm = () => {
           email: `${formData.email}`,
           address: {
             line1: `${formData.address}`,
-            town: `${formData.town}`,
+            city: `${formData.town}`,
             postal_code: `${formData.postcode}`,
           }
         },
       }
     });
+
+    setPaymentProcessing(false);
+    setState({ ...state, clientSecret: '' });
 
     if (result.error) {
       // Show error to your customer (e.g., insufficient funds)
@@ -71,6 +77,11 @@ export const CheckoutForm = () => {
   return (
     <div className='paymentDetailsFormContainer'>
       Payment Details
+      { paymentProcessing ?
+          <CheckoutFormSpinner />
+        :
+          null
+      }
       <Form
         className='paymentDetailsForm'
         id='myForm'

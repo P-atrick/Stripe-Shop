@@ -67,7 +67,7 @@ export const Cart = () => {
         onClick={ createPaymentIntent }
         type='primary'
       >Continue</Button>
-      { state.clientSecret = true?
+      { state.clientSecret?
           <Checkout/>
         :
           null
