@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import Axios from 'axios';
 import { Button, Table } from 'antd';
 import { AppContext } from '../Context';
@@ -8,6 +8,7 @@ import { Checkout } from './Checkout.jsx';
 export const Cart = () => {
 
   const [state, setState] = useContext(AppContext);
+  const [showContinue, setShowContinue] = useState(true)
 
   const tableColumns = [
     {
@@ -44,7 +45,6 @@ export const Cart = () => {
   })
 
   const createPaymentIntent = () => {
-    let test;
     Axios
       .post('/api/checkout', {
         totalPrice: state.totalPrice,
@@ -53,6 +53,7 @@ export const Cart = () => {
         await res.data.clientSecret
         setState({ ...state, clientSecret: res.data.clientSecret })
       })
+    setShowContinue(false);
   }
 
   return (
@@ -63,17 +64,16 @@ export const Cart = () => {
         footer={() => `Total Price: £${formatPrice(state.totalPrice)}`}
         pagination={false}
       />
-      <Button
-        className='createPaymentIntentButton'
-        onClick={ createPaymentIntent }
-        type='primary'
-        size='large'
-      >Continue</Button>
-      { state.clientSecret ?
-          <Checkout/>
-        :
-          null
+      {
+        showContinue &&
+        <Button
+          className='createPaymentIntentButton'
+          onClick={ createPaymentIntent }
+          type='primary'
+          size='large'
+        >Continue</Button>
       }
+      { state.clientSecret && <Checkout/> }
     </div>
   )
 }

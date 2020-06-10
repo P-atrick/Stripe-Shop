@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
-import { Button, Form, Input } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { AppContext } from '../Context';
-import { CheckoutFormSpinner } from './CheckoutFormSpinner.jsx';
+import { formatPrice } from './utility/FormatPrice';
 
 export const CheckoutForm = () => {
 
@@ -40,15 +40,8 @@ export const CheckoutForm = () => {
   const elements = useElements();
 
   const handleSubmit = async (e) => {
-    console.log(form)
     e.preventDefault();
     setPaymentProcessing(true);
-
-    if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
-    }
 
     const result = await stripe.confirmCardPayment(state.clientSecret, {
       payment_method: {
@@ -73,7 +66,12 @@ export const CheckoutForm = () => {
     } else {
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
-        setState({ ...state, clientSecret: '' });
+        setState({
+          ...state,
+          clientSecret: '',
+          cart: {},
+          totalPrice: 0
+       });
         history.push('/ordercomplete');
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
@@ -88,20 +86,17 @@ export const CheckoutForm = () => {
 
   return (
     <div className='paymentDetailsFormContainer'>
-      { paymentProcessing ?
-          <CheckoutFormSpinner />
-        :
-          null
-      }
       <form
         className='paymentDetailsForm'
         id='myForm'
         onSubmit={ handleSubmit }
       >
         <fieldset>
-          <div className='row' name='name'>
-            <label>Name</label>
+          <div className='row'>
+            <label htmlFor='name'>Name</label>
             <input
+              disabled={ paymentProcessing }
+              id='name'
               type='text'
               placeholder='Jane Doe'
               onChange={(e) => setForm({...form, name: e.target.value})}
@@ -109,8 +104,10 @@ export const CheckoutForm = () => {
           </div>
 
           <div className='row'>
-            <label name='email'>Email</label>
+            <label htmlFor='email'>Email</label>
             <input
+              disabled={ paymentProcessing }
+              id='email'
               type='email'
               placeholder='janedoe@gmail.com'
               onChange={(e) => setForm({...form, email: e.target.value})}
@@ -118,8 +115,10 @@ export const CheckoutForm = () => {
           </div>
 
           <div className='row'>
-            <label>Address</label>
+            <label htmlFor='address'>Address</label>
             <input
+              disabled={ paymentProcessing }
+              id='address'
               type='text'
               placeholder='The Mall'
               onChange={(e) => setForm({...form, address: e.target.value})}
@@ -127,15 +126,19 @@ export const CheckoutForm = () => {
           </div>
 
           <div className='row'>
-            <label>City</label>
+            <label htmlFor='city'>City</label>
             <input
+              disabled={ paymentProcessing }
+              id='city'
               type='text'
               placeholder='London'
               onChange={(e) => setForm({...form, city: e.target.value})}
             />
 
-            <label>Postcode</label>
+            <label htmlFor='postcode'>Postcode</label>
             <input
+              disabled={ paymentProcessing }
+              id='postcode'
               type='postcode'
               placeholder='SW1A 1AA'
               onChange={(e) => setForm({...form, postcode: e.target.value})}
@@ -153,7 +156,14 @@ export const CheckoutForm = () => {
           form='myForm'
           key='submit'
           type='submit'
-        >Confirm order</button>
+        >
+          {
+            paymentProcessing ?
+              <LoadingOutlined/>
+            :
+              `Confirm payment of £${formatPrice(state.totalPrice)}`
+          }
+        </button>
       </form>
     </div>
   )
