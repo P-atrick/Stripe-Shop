@@ -1,7 +1,8 @@
-@import '~antd/dist/antd.css';
-@import 'products.scss';
-@import 'cart.scss';
-@import 'cartTable.scss';
+@import '~antd/dist/antd.css',
+        'products.scss',
+        'cart.scss',
+        'cartTable.scss',
+        'cartEmpty.scss';
 
 .appContainer {
   width: 95%;
