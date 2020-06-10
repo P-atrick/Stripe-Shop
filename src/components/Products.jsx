@@ -3,6 +3,7 @@ import { Button, Card } from 'antd';
 import { AppContext } from '../Context';
 import { products } from '../Data/products';
 import { formatPrice } from './utility/FormatPrice';
+import { persistState } from './utility/PersistState';
 
 export const Products = () => {
 
@@ -50,14 +51,6 @@ export const Products = () => {
       },
       totalPrice: prevState.totalPrice + state.cart[productId].unitPrice
     }));
-  }
-
-  const persistState = (state) => {
-    const stateToStore = {
-      cart: state.cart,
-      totalPrice: state.totalPrice
-    }
-    localStorage.setItem('storeData', JSON.stringify(stateToStore));
   }
 
   useEffect(() => {

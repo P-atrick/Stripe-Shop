@@ -1,0 +1,30 @@
+.cartTable {
+  margin: 0 auto;
+  width: 80%;
+
+  thead {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    
+    th {
+      padding: 10px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid black;
+      font-size: 1.2em;
+
+      td {
+        padding: 1.5em 1em;
+      }
+
+      .anticon {
+        cursor: pointer;
+        font-size: 1.2em;
+        margin: 0 5px;
+      }
+    }
+  }
+}
