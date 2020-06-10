@@ -9,22 +9,29 @@ export const CheckoutForm = () => {
 
   const [state, setState] = useContext(AppContext);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [form, setForm] = useState({});
   const history = useHistory();
 
   const CARD_ELEMENT_OPTIONS = {
+    iconStyle: 'solid',
     style: {
       base: {
-        color: "#32325d",
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: "antialiased",
-        fontSize: "16px",
-        "::placeholder": {
-          color: "#aab7c4",
+        iconColor: '#c4f0ff',
+        color: '#fff',
+        fontWeight: 500,
+        fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+        fontSize: '16px',
+        fontSmoothing: 'antialiased',
+        ':-webkit-autofill': {
+          color: '#fce883',
+        },
+        '::placeholder': {
+          color: '#87BBFD',
         },
       },
       invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a",
+        iconColor: '#FFC7EE',
+        color: '#FFC7EE',
       },
     },
   };
@@ -32,7 +39,9 @@ export const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async (e) => {
+    console.log(form)
+    e.preventDefault();
     setPaymentProcessing(true);
 
     if (!stripe || !elements) {
@@ -45,12 +54,12 @@ export const CheckoutForm = () => {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: `${formData.email}`,
+          name: form.name,
+          email: form.email,
           address: {
-            line1: `${formData.address}`,
-            city: `${formData.town}`,
-            postal_code: `${formData.postcode}`,
+            line1: form.address,
+            city: form.town,
+            postal_code: form.postcode,
           }
         },
       }
@@ -79,74 +88,73 @@ export const CheckoutForm = () => {
 
   return (
     <div className='paymentDetailsFormContainer'>
-      Payment Details
       { paymentProcessing ?
           <CheckoutFormSpinner />
         :
           null
       }
-      <Form
+      <form
         className='paymentDetailsForm'
         id='myForm'
-        onFinish={ handleSubmit }
+        onSubmit={ handleSubmit }
       >
-        <Form.Item
-          label='First Name'
-          name='firstName'
-          rules={[{ required: true, message: 'Please enter your first name' }]}
-        >
-          <Input />
-        </Form.Item>
+        <fieldset>
+          <div className='row' name='name'>
+            <label>Name</label>
+            <input
+              type='text'
+              placeholder='Jane Doe'
+              onChange={(e) => setForm({...form, name: e.target.value})}
+            />
+          </div>
 
-        <Form.Item
-          label='Last Name'
-          name='lastName'
-          rules={[{ required: true, message: 'Please enter your last name' }]}
-        >
-          <Input />
-        </Form.Item>
+          <div className='row'>
+            <label name='email'>Email</label>
+            <input
+              type='email'
+              placeholder='janedoe@gmail.com'
+              onChange={(e) => setForm({...form, email: e.target.value})}
+            />
+          </div>
 
-        <Form.Item
-          label='Email'
-          name='email'
-          rules={[{ required: true, message: 'Please enter your email' }]}
-        >
-          <Input type='email'/>
-        </Form.Item>
-        
+          <div className='row'>
+            <label>Address</label>
+            <input
+              type='text'
+              placeholder='The Mall'
+              onChange={(e) => setForm({...form, address: e.target.value})}
+            />
+          </div>
 
-        <Form.Item
-          label='Address'
-          name='address'
-          rules={[{ required: true, message: 'Please enter your address' }]}
-        >
-          <Input />
-        </Form.Item>
+          <div className='row'>
+            <label>City</label>
+            <input
+              type='text'
+              placeholder='London'
+              onChange={(e) => setForm({...form, city: e.target.value})}
+            />
 
-        <Form.Item
-          label='Town'
-          name='town'
-          rules={[{ required: true, message: 'Please enter your town' }]}
-        >
-          <Input />
-        </Form.Item>
+            <label>Postcode</label>
+            <input
+              type='postcode'
+              placeholder='SW1A 1AA'
+              onChange={(e) => setForm({...form, postcode: e.target.value})}
+            />
+          </div>
+        </fieldset>
 
-        <Form.Item
-          label='Postcode'
-          name='postcode'
-          rules={[{ required: true, message: 'Please enter your postcode' }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <CardElement options={ CARD_ELEMENT_OPTIONS } />
-        <Button
+        <fieldset>
+          <div className='row'>
+            <CardElement options={ CARD_ELEMENT_OPTIONS } />
+          </div>
+        </fieldset>
+        <button
           disabled={ !stripe || !elements }
           form='myForm'
           key='submit'
-          htmlType='submit'
-        >Confirm order</Button>
-      </Form>
+          type='submit'
+        >Confirm order</button>
+      </form>
     </div>
   )
 }

@@ -64,10 +64,12 @@ export const Cart = () => {
         pagination={false}
       />
       <Button
+        className='createPaymentIntentButton'
         onClick={ createPaymentIntent }
         type='primary'
+        size='large'
       >Continue</Button>
-      { state.clientSecret?
+      { state.clientSecret ?
           <Checkout/>
         :
           null
