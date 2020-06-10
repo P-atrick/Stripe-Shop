@@ -4,14 +4,13 @@ const mongoose   = require('mongoose');
 const bodyParser = require('body-parser');
 const app        = express();
 
-const { port, db, env } = require('./config/environment');
+const { port, env } = require('./config/environment');
 const routes            = require('./config/routes');
 const customResponses   = require('./lib/customResponses');
 const errorHandler      = require('./lib/errorHandler');
 
 mongoose.Promise = require('bluebird');
 mongoose.plugin(require('mongoose-unique-validator'));
-mongoose.connect(db[env]);
 
 app.use(morgan('dev'));
 app.use(express.static(`${__dirname}/public`));
