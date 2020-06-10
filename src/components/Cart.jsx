@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Axios from 'axios';
 import { Button, Table } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { AppContext } from '../Context';
 import { formatPrice } from './utility/FormatPrice';
 import { Checkout } from './Checkout.jsx';
@@ -8,7 +9,7 @@ import { Checkout } from './Checkout.jsx';
 export const Cart = () => {
 
   const [state, setState] = useContext(AppContext);
-  const [showContinue, setShowContinue] = useState(true)
+  const [allowContinue, setAllowContinue] = useState(true)
 
   const tableColumns = [
     {
@@ -53,7 +54,7 @@ export const Cart = () => {
         await res.data.clientSecret
         setState({ ...state, clientSecret: res.data.clientSecret })
       })
-    setShowContinue(false);
+    setAllowContinue(false);
   }
 
   return (
@@ -64,14 +65,12 @@ export const Cart = () => {
         footer={() => `Total Price: £${formatPrice(state.totalPrice)}`}
         pagination={false}
       />
-      {
-        showContinue &&
-        <Button
+      { allowContinue && 
+        <button
           className='createPaymentIntentButton'
+          disabled={ !allowContinue }
           onClick={ createPaymentIntent }
-          type='primary'
-          size='large'
-        >Continue</Button>
+        >Continue</button>
       }
       { state.clientSecret && <Checkout/> }
     </div>
