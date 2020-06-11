@@ -2,8 +2,8 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import { Products } from './Products.jsx'
-import { Cart } from './Cart.jsx'
-import { OrderComplete } from './OrderComplete.jsx'
+import { Cart } from './checkout/Cart.jsx'
+import { OrderComplete } from './checkout/OrderComplete.jsx'
 
 export default () => {
   return (

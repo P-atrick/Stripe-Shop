@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons';
-import { AppContext } from '../Context';
-import { formatPrice } from './utility/FormatPrice';
-import { persistState } from './utility/PersistState';
+import { AppContext } from '../../Context';
+import { formatPrice } from '../utility/FormatPrice';
+import { persistState } from '../utility/PersistState';
 
 export const CartTable = () => {
 
@@ -93,6 +93,8 @@ export const CartTable = () => {
             }
           })}
         </tbody>
+
+        <p>Total Price: £{formatPrice(state.totalPrice)}</p>
 
       </table>
   )

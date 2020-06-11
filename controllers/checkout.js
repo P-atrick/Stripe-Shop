@@ -44,11 +44,13 @@ const orderComplete = async (req, res, next) => {
     )
     RETURNING *`
     
-  pool.query(queryString, (err,res)=>{
+  pool.query(queryString, (err,queryRes)=>{
     if (err) {
-      console.log(err)
+      console.log(err);
+      res.sendStatus(500);
     } else {
-      console.log(`Created ${res.rowCount} new rows.`)
+      console.log(`Created ${queryRes.rowCount} new rows.`);
+      res.sendStatus(200);
     }
   })
 }

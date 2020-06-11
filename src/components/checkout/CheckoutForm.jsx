@@ -3,8 +3,8 @@ import Axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { LoadingOutlined } from '@ant-design/icons';
-import { AppContext } from '../Context';
-import { formatPrice } from './utility/FormatPrice';
+import { AppContext } from '../../Context';
+import { formatPrice } from '../utility/FormatPrice';
 
 export const CheckoutForm = () => {
 
@@ -56,7 +56,8 @@ export const CheckoutForm = () => {
             postal_code: form.postcode,
           }
         },
-      }
+      },
+      receipt_email: form.email
     });
 
     setPaymentProcessing(false);

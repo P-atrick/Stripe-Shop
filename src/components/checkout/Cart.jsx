@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Axios from 'axios';
-import { AppContext } from '../Context';
+import { AppContext } from '../../Context';
 import { CartEmpty } from './CartEmpty.jsx';
 import { CartTable } from './CartTable.jsx';
 import { Checkout } from './Checkout.jsx';
