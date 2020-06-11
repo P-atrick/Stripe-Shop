@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import Axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -64,6 +65,10 @@ export const CheckoutForm = () => {
       // Show error to your customer (e.g., insufficient funds)
       console.log(result.error.message);
     } else {
+      const order = {
+        cart: state.cart,
+        totalPrice: state.totalPrice
+      }
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
         setState({
@@ -72,6 +77,10 @@ export const CheckoutForm = () => {
           cart: {},
           totalPrice: 0
        });
+       Axios
+        .post('/api/checkout/order', {
+          cart: state.cart, totalPrice: state.totalPrice
+        })
         history.push('/ordercomplete');
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
