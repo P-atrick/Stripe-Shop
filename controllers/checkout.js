@@ -30,11 +30,13 @@ const orderComplete = async (req, res, next) => {
   const values = [1, 'Patrick Kelly', 'patrick@pkelly.co', 123];
 
   var queryString = `INSERT INTO orders(
+      customer_id,
       name,
       email,
       total_price,
       cart
     ) VALUES(
+      null,
       'Patrick Kelly',
       'patrick@pkelly.co',
       ${totalPrice},
