@@ -2,15 +2,17 @@ const path = require('path');
 const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const HtmlWebpack = new HtmlWebpackPlugin({
   template: 'src/index.html',
   filename: 'index.html',
-  inject: 'body'
+  inject: 'body',
 });
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const CopyWebpack = new CopyWebpackPlugin([
-  { from: './src/assets', to: 'assets' }
+  { from: './src/assets', to: 'assets' },
 ]);
 
 const HotModuleReplcement = new webpack.HotModuleReplacementPlugin();
@@ -20,7 +22,7 @@ module.exports = {
   output: {
     path: path.resolve('public'),
     filename: 'app.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   module: {
     loaders: [
@@ -30,8 +32,8 @@ module.exports = {
       { test: /\.(eot|jpg|png|gif)(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
       { test: /\.(woff|woff2)$/, loader: 'url-loader?prefix=font/&limit=5000' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml' }
-    ]
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml' },
+    ],
   },
   devServer: {
     historyApiFallback: true,
@@ -42,9 +44,9 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://localhost:4000',
-        secure: false
-      }
-    }
+        secure: false,
+      },
+    },
   },
-  plugins: [HotModuleReplcement, HtmlWebpack, CopyWebpack]
+  plugins: [HotModuleReplcement, HtmlWebpack, CopyWebpack],
 };
