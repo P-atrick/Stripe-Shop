@@ -1,0 +1,31 @@
+.errorContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  width: 100%;
+
+  .errorIcon {
+    font-size: 20em;
+    opacity: 0.4;
+  }
+
+  .errorText {
+    font-size: 2em;
+    text-align: center;
+  }
+
+  .errorLink {
+    background-color: lightsteelblue;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 1.3em;
+    margin: 0 auto;
+    padding: 0.8em 0;
+    text-align: center;
+    width: 30%;
+  }
+}
