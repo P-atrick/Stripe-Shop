@@ -1,6 +1,7 @@
 const { Pool } = require('pg');
 const { stripeSecret } = require('../config/environment');
 const stripe = require('stripe')(stripeSecret);
+const nodemailer = require('nodemailer');
 const {
   pgUser,
   pgHost,
@@ -8,6 +9,7 @@ const {
   pgPassword,
   pgPort,
 } = require('../config/environment');
+const { sendFromEmail, sendFromPass } = require('../config/environment');
 
 const pool = new Pool({
   user: pgUser,
@@ -29,7 +31,7 @@ const createPaymentIntent = async (req, res) => {
   res.send({ clientSecret: paymentIntent.client_secret });
 };
 
-const orderComplete = async (req, res) => {
+const orderComplete = async (req, res, next) => {
   const { cart, totalPrice } = req.body;
 
   const queryString = `INSERT INTO orders(
@@ -56,9 +58,43 @@ const orderComplete = async (req, res) => {
       res.sendStatus(200);
     }
   });
+
+  next(sendConfirmationEmail(req, res))
 };
+
+const sendConfirmationEmail = (req, res) => {
+  const { customerEmail } = req.body;
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    service: 'gmail',
+    auth: {
+      user: sendFromEmail,
+      pass: sendFromPass
+    }
+  });
+  
+  const mailOptions = {
+    from: {
+      name: 'Patrick Kelly',
+      address: sendFromEmail
+    },
+    to: customerEmail,
+    subject: 'Nodemailer Test',
+    text: 'Nodemailer test text.'
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+      res.sendStatus(500);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+    }
+  });
+}
 
 module.exports = {
   createPaymentIntent,
-  orderComplete,
+  orderComplete
 };

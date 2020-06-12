@@ -42,6 +42,7 @@ const CheckoutForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setPaymentProcessing(true);
+    const customerEmail = form.email;
 
     const result = await stripe.confirmCardPayment(state.clientSecret, {
       payment_method: {
@@ -73,11 +74,16 @@ const CheckoutForm = () => {
           cart: {},
           totalPrice: 0,
         });
+
         Axios
           .post('/api/checkout/order', {
-            cart: state.cart, totalPrice: state.totalPrice,
+            cart: state.cart,
+            totalPrice: state.totalPrice,
+            customerEmail,
           });
+
         history.push('/ordercomplete');
+
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
         // execution. Set up a webhook or plugin to listen for the

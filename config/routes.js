@@ -3,7 +3,7 @@ const checkout = require('../controllers/checkout');
 
 router.route('/checkout')
   .post(checkout.createPaymentIntent);
-
+  
 router.route('/checkout/order')
   .post(checkout.orderComplete);
 
