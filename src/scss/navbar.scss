@@ -10,12 +10,17 @@
 
   .ant-badge {
     margin-left: 5px;
+    padding-top: 5px;
   
     .ant-badge-count {
       background-color: #0072ff;
       border-radius: 5px;
   
     }
+  }
+
+  .ant-badge-not-a-wrapper:not(.ant-badge-status) {
+    vertical-align: top;
   }
 }
 

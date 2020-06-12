@@ -22,6 +22,7 @@ const Navbar = () => {
             // color='orange'
             count={Object.keys(state.cart).length}
             overflowCount={99}
+            showZero={true}
           />
         </Link>
       </Menu.Item>
