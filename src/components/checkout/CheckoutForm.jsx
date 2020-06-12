@@ -4,10 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { LoadingOutlined } from '@ant-design/icons';
 import { AppContext } from '../../Context';
-import { formatPrice } from '../utility/FormatPrice';
+import formatPrice from '../utility/FormatPrice';
 
-export const CheckoutForm = () => {
-
+const CheckoutForm = () => {
   const [state, setState] = useContext(AppContext);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
   const [form, setForm] = useState({});
@@ -54,34 +53,30 @@ export const CheckoutForm = () => {
             line1: form.address,
             city: form.town,
             postal_code: form.postcode,
-          }
+          },
         },
       },
-      receipt_email: form.email
+      receipt_email: form.email,
     });
 
     setPaymentProcessing(false);
-    
+
     if (result.error) {
       // Show error to your customer (e.g., insufficient funds)
       console.log(result.error.message);
     } else {
-      const order = {
-        cart: state.cart,
-        totalPrice: state.totalPrice
-      }
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
         setState({
           ...state,
           clientSecret: '',
           cart: {},
-          totalPrice: 0
-       });
-       Axios
-        .post('/api/checkout/order', {
-          cart: state.cart, totalPrice: state.totalPrice
-        })
+          totalPrice: 0,
+        });
+        Axios
+          .post('/api/checkout/order', {
+            cart: state.cart, totalPrice: state.totalPrice,
+          });
         history.push('/ordercomplete');
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
@@ -92,89 +87,88 @@ export const CheckoutForm = () => {
     }
   };
 
-  
-
   return (
-    <div className='paymentDetailsFormContainer'>
+    <div className="paymentDetailsFormContainer">
       <form
-        className='paymentDetailsForm'
-        id='myForm'
-        onSubmit={ handleSubmit }
+        className="paymentDetailsForm"
+        id="myForm"
+        onSubmit={handleSubmit}
       >
         <fieldset>
-          <div className='row'>
-            <label htmlFor='name'>Name</label>
+          <div className="row">
+            <label htmlFor="name">Name</label>
             <input
-              disabled={ paymentProcessing }
-              id='name'
-              type='text'
-              placeholder='Jane Doe'
-              onChange={(e) => setForm({...form, name: e.target.value})}
+              disabled={paymentProcessing}
+              id="name"
+              type="text"
+              placeholder="Jane Doe"
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
           </div>
 
-          <div className='row'>
-            <label htmlFor='email'>Email</label>
+          <div className="row">
+            <label htmlFor="email">Email</label>
             <input
-              disabled={ paymentProcessing }
-              id='email'
-              type='email'
-              placeholder='janedoe@gmail.com'
-              onChange={(e) => setForm({...form, email: e.target.value})}
+              disabled={paymentProcessing}
+              id="email"
+              type="email"
+              placeholder="janedoe@gmail.com"
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
           </div>
 
-          <div className='row'>
-            <label htmlFor='address'>Address</label>
+          <div className="row">
+            <label htmlFor="address">Address</label>
             <input
-              disabled={ paymentProcessing }
-              id='address'
-              type='text'
-              placeholder='The Mall'
-              onChange={(e) => setForm({...form, address: e.target.value})}
+              disabled={paymentProcessing}
+              id="address"
+              type="text"
+              placeholder="The Mall"
+              onChange={(e) => setForm({ ...form, address: e.target.value })}
             />
           </div>
 
-          <div className='row'>
-            <label htmlFor='city'>City</label>
+          <div className="row">
+            <label htmlFor="city">City</label>
             <input
-              disabled={ paymentProcessing }
-              id='city'
-              type='text'
-              placeholder='London'
-              onChange={(e) => setForm({...form, city: e.target.value})}
+              disabled={paymentProcessing}
+              id="city"
+              type="text"
+              placeholder="London"
+              onChange={(e) => setForm({ ...form, city: e.target.value })}
             />
 
-            <label htmlFor='postcode'>Postcode</label>
+            <label htmlFor="postcode">Postcode</label>
             <input
-              disabled={ paymentProcessing }
-              id='postcode'
-              type='postcode'
-              placeholder='SW1A 1AA'
-              onChange={(e) => setForm({...form, postcode: e.target.value})}
+              disabled={paymentProcessing}
+              id="postcode"
+              type="postcode"
+              placeholder="SW1A 1AA"
+              onChange={(e) => setForm({ ...form, postcode: e.target.value })}
             />
           </div>
         </fieldset>
 
         <fieldset>
-          <div className='row'>
-            <CardElement options={ CARD_ELEMENT_OPTIONS } />
+          <div className="row">
+            <CardElement options={CARD_ELEMENT_OPTIONS} />
           </div>
         </fieldset>
         <button
-          disabled={ !stripe || !elements }
-          form='myForm'
-          key='submit'
-          type='submit'
+          disabled={!stripe || !elements}
+          form="myForm"
+          key="submit"
+          type="submit"
         >
           {
-            paymentProcessing ?
-              <LoadingOutlined/>
-            :
-              `Confirm payment of £${formatPrice(state.totalPrice)}`
+            paymentProcessing
+              ? <LoadingOutlined />
+              : `Confirm payment of £${formatPrice(state.totalPrice)}`
           }
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
+
+export default CheckoutForm;

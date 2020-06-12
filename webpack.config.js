@@ -18,10 +18,10 @@ const CopyWebpack = new CopyWebpackPlugin([
 const HotModuleReplcement = new webpack.HotModuleReplacementPlugin();
 
 module.exports = {
-  entry: './src/app.js',
+  entry: './src/app.jsx',
   output: {
     path: path.resolve('public'),
-    filename: 'app.js',
+    filename: 'app.jsx',
     publicPath: '/',
   },
   module: {
@@ -34,6 +34,9 @@ module.exports = {
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream' },
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml' },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   devServer: {
     historyApiFallback: true,

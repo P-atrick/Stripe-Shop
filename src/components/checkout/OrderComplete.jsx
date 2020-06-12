@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const OrderComplete = () => {
-  return (
-    <div>
-      Payment Success
-    </div>
-  )
-}
+const OrderComplete = () => (
+  <div>
+    Payment Success
+  </div>
+);
+
+export default OrderComplete;
