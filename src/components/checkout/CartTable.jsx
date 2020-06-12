@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { AppContext } from '../../Context';
 import formatPrice from '../utility/FormatPrice';
-import persistState from '../utility/PersistState';
 
 const CartTable = () => {
   const [state, setState] = useContext(AppContext);
@@ -52,10 +51,6 @@ const CartTable = () => {
       }));
     }
   };
-
-  useEffect(() => {
-    persistState(state);
-  }, [state]);
 
   return (
     <table className="cartTable">

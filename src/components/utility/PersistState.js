@@ -1,4 +1,5 @@
 const persistState = (state) => {
+  console.log('persisting')
   const stateToStore = {
     cart: state.cart,
     totalPrice: state.totalPrice,

@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Axios from 'axios';
 import { AppContext } from '../../Context';
 import CartEmpty from './CartEmpty';
 import CartTable from './CartTable';
 import Checkout from './Checkout';
+import persistState from '../utility/PersistState';
 
 const Cart = () => {
   const [state, setState] = useContext(AppContext);
@@ -20,6 +21,10 @@ const Cart = () => {
       });
     setAllowContinue(false);
   };
+
+  useEffect(() => {
+    persistState(state);
+  }, [state]);
 
   return (
     <div>
