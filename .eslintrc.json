@@ -6,7 +6,8 @@
     },
     "extends": "airbnb",
     "rules": {
-        "indent": ["error", 2]
+        "indent": ["error", 2],
+        "quotes": ["single", { "allowTemplateLiterals": true }]
     },
     "ignorePatterns": ["public", "node_modules", "test"]
 }

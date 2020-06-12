@@ -1,0 +1,24 @@
+.ant-menu {
+  background-color: #e5e5ff;
+  box-shadow: 0 2px 4px -3px rgba(0, 0, 0, 0.2);
+  font-size: 1.1em;
+
+  .ant-menu-item {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+
+  .ant-badge {
+    margin-left: 5px;
+  
+    .ant-badge-count {
+      background-color: #0072ff;
+      border-radius: 5px;
+  
+    }
+  }
+}
+
+.ant-menu-horizontal {
+  line-height: 4em;
+}
