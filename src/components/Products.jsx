@@ -58,7 +58,7 @@ const Products = () => {
       {productsData.map((product) => (
         <Card
           className="productCard"
-          cover={<img alt={`${product.name}`} src={require(`../assets/product-images/${product.image}`)} />}
+          cover={<img alt={`${product.name}`} src={require(`../../public/assets/product-images/${product.image}`)} />}
           hoverable
           key={product.id}
           style={{ width: '100' }}
