@@ -76,7 +76,7 @@ const CheckoutForm = () => {
         });
 
         Axios
-          .post('/api/checkout/order', {
+          .post('/api/checkout/ordercomplete', {
             cart: state.cart,
             totalPrice: state.totalPrice,
             customerEmail,

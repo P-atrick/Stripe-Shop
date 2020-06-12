@@ -4,7 +4,7 @@ const checkout = require('../controllers/checkout');
 router.route('/checkout')
   .post(checkout.createPaymentIntent);
   
-router.route('/checkout/order')
+router.route('/checkout/ordercomplete')
   .post(checkout.orderComplete);
 
 router.all('/*', (req, res) => res.notFound());
