@@ -6,7 +6,7 @@ const { sendFromEmail, sendFromPass } = require('../config/environment');
 
 const sendConfirmationEmail = (variables) => {
   const { cart, chargedPrice, customerEmail } = variables;
-  console.log('chargedPrice', chargedPrice)
+
   const readHTMLFile = function(path, callback) {
     fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
         if (err) {
@@ -42,7 +42,7 @@ const sendConfirmationEmail = (variables) => {
       },
       to: customerEmail,
       subject: 'Nodemailer Test',
-      text: htmlToSend
+      html: htmlToSend
     };
 
      transporter.sendMail(mailOptions, function(error, info){
