@@ -10,16 +10,34 @@ const Cart = () => {
   const [state, setState] = useContext(AppContext);
   const [allowContinue, setAllowContinue] = useState(true);
 
-  const createPaymentIntent = () => {
+  const createpaymentIntent = (id) => {
     Axios
-      .post('/api/checkout', {
+      .post('/api/checkout/createpayment', {
         totalPrice: state.totalPrice,
       })
       .then(async (res) => {
         await res.data.clientSecret;
-        setState({ ...state, clientSecret: res.data.clientSecret });
+        setState({ ...state, token: res.data.clientSecret, id: id });
       });
-    setAllowContinue(false);
+      setAllowContinue(false);
+  }
+
+  const createOrder = () => {
+    // Save order to DB
+    Axios
+    .post('/api/checkout/createorder', {
+      cart: state.cart,
+      totalPrice: state.totalPrice
+    })
+    .then(res => {
+      // If the DB saved the order, create payment intent
+      if (res.status === 200) {
+        createpaymentIntent(res.data.id);
+      // If the DB hit an error, console log the error
+      } else {
+        console.log('Received error when saving order to database');
+      }
+    })
   };
 
   useEffect(() => {
@@ -36,15 +54,15 @@ const Cart = () => {
               { allowContinue
             && (
               <button
-                className="createPaymentIntentButton"
+                className="createOrderButton"
                 disabled={!allowContinue}
-                onClick={createPaymentIntent}
+                onClick={createOrder}
                 type="button"
               >
                 Continue
               </button>
             )}
-              { state.clientSecret && <Checkout /> }
+              { state.token && <Checkout /> }
             </div>
           )
           : <CartEmpty />

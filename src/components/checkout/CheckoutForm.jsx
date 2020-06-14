@@ -44,7 +44,7 @@ const CheckoutForm = () => {
     setPaymentProcessing(true);
     const customerEmail = form.email;
 
-    const result = await stripe.confirmCardPayment(state.clientSecret, {
+    const result = await stripe.confirmCardPayment(state.token, {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
@@ -68,18 +68,21 @@ const CheckoutForm = () => {
     } else {
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
-        setState({
-          ...state,
-          clientSecret: '',
-          cart: {},
-          totalPrice: 0,
-        });
-
         Axios
           .post('/api/checkout/ordercomplete', {
+            id: state.id,
             cart: state.cart,
-            totalPrice: state.totalPrice,
-            customerEmail,
+            chargedPrice: result.paymentIntent.amount,
+            customerEmail: result.paymentIntent.receipt_email,
+            paymentId: result.paymentIntent.id
+          });
+
+          setState({
+            ...state,
+            token: '',
+            cart: {},
+            totalPrice: 0,
+            id: ''
           });
 
         history.push('/ordercomplete');

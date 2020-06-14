@@ -5,7 +5,7 @@ const path = require('path');
 const { sendFromEmail, sendFromPass } = require('../config/environment');
 
 const sendConfirmationEmail = (vars) => {
-  const { cart, totalPrice, customerEmail } = vars;
+  const { cart, chargedPrice, customerEmail } = vars;
   const readHTMLFile = function(path, callback) {
     fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
         if (err) {
@@ -21,7 +21,7 @@ const sendConfirmationEmail = (vars) => {
   readHTMLFile(path.resolve(__dirname, '../src/assets/emails/orderConfirmation.hbs'), function(err, html) {
     const template = handlebars.compile(html);
     const replacements = {
-         totalPrice
+         chargedPrice
     };
     const htmlToSend = template(replacements);
 
