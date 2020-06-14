@@ -4,8 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const { sendFromEmail, sendFromPass } = require('../config/environment');
 
-const sendConfirmationEmail = (vars) => {
-  const { cart, chargedPrice, customerEmail } = vars;
+const sendConfirmationEmail = (variables) => {
+  const { cart, chargedPrice, customerEmail } = variables;
+  console.log('chargedPrice', chargedPrice)
   const readHTMLFile = function(path, callback) {
     fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
         if (err) {

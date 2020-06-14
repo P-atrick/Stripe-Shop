@@ -59,7 +59,7 @@ const createPaymentIntent = async (req, res) => {
 const completeOrder = async (req, res) => {
   const { id, cart, chargedPrice, customerEmail, paymentId } = req.body;
 
-  sendEmail.sendConfirmationEmail(req.body);
+  sendEmail.sendConfirmationEmail({ cart, chargedPrice, customerEmail });
 
   const queryString = `UPDATE orders SET charged_price = ${chargedPrice}, customer_email = '${customerEmail}', payment_id = '${paymentId}' WHERE order_id = ${id} RETURNING *`
   await pool.query(queryString, (err, queryRes) => {
