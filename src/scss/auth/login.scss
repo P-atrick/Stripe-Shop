@@ -1,0 +1,33 @@
+.registerSection {
+  background-color: #f3f3f3;
+  height: 15em;
+  margin-top: 5em;
+  padding-top: 2em;
+
+  .registerButtonContainer {
+    margin: 1em auto 0;
+    max-width: 40%;
+    min-width: 400px;
+
+    a {
+      align-items: center;
+      background-color: #fff;
+      border: 2px solid #000;
+      border-radius: 5px;
+      color: #000;
+      cursor: pointer;
+      display: flex;
+      font-size: 14px;
+      font-weight: 500;
+      height: 40px;
+      justify-content: center;
+      margin: 1em auto;
+      width: 100%;
+  
+      &:hover {
+        background-color: #d6d6d6;
+      }
+    }
+  }
+
+}

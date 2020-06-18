@@ -1,12 +1,9 @@
 @import '~antd/dist/antd.css',
-        'navbar.scss',
-        'products.scss',
-        'cart.scss',
-        'cartTable.scss',
-        'cartEmpty.scss',
-        'error.scss';
-
-.appContainer {
-  width: 95%;
-  margin: 0 auto;
-}
+        'navbar',
+        'products',
+        'form',
+        './cart/cart',
+        './cart/cartTable',
+        './cart/cartEmpty',
+        './auth/login',
+        'error';

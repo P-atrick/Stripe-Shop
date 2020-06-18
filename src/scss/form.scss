@@ -1,0 +1,65 @@
+.formTitle {
+  color: #000;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+form {
+  color: #000;
+  margin: 1em auto 0;
+  max-width: 40%;
+  min-width: 400px;
+
+  .formItem {
+    margin: 0 auto;
+    padding: 12px 0;
+    text-align: center;
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 0 auto;
+      text-align: left;
+      width: 100%;
+    }
+
+    input {
+      border: 1px solid #000;
+      border-radius: 2px;
+      display: block;
+      font-size: 16px;
+      margin: 0 auto;
+      padding: 0.5em 12px;
+      width: 100%;
+
+      &::placeholder {
+        opacity: 0.3;
+      }
+
+      &:hover {
+        border: 1px solid #1337ff;
+      }
+    }
+  }
+
+  button {
+    background-color: #000;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    margin: 1em auto;
+    width: 100%;
+
+    &:hover {
+      background-color: #1337ff;
+      opacity: 0.8;
+    }
+  }
+}

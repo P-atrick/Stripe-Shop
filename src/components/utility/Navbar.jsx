@@ -15,16 +15,20 @@ const Navbar = () => {
       <Menu.Item key="home" icon={<HomeOutlined />}>
         <Link to="/">Home</Link>
       </Menu.Item>
+
       <Menu.Item key="cart" icon={<ShoppingCartOutlined />} style={{ float: 'right' }}>
         <Link to="/cart">
           Cart
           <Badge
-            // color='orange'
             count={Object.keys(state.cart).length}
             overflowCount={99}
             showZero={true}
           />
         </Link>
+      </Menu.Item>
+
+      <Menu.Item key="login" style={{ float: 'right' }}>
+        <Link to="/login">Login</Link>
       </Menu.Item>
     </Menu>
   );

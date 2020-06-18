@@ -5,7 +5,7 @@ import './scss/main.scss';
 import { AppContextProvider } from './Context';
 import Navbar from './components/utility/Navbar';
 import Routes from './components/Routes';
-import Login from './components/auth/LoginForm';
+import Login from './components/auth/Login';
 import Register from './components/auth/RegisterForm';
 
 function App() {
