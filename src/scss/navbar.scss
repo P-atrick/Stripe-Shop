@@ -1,11 +1,14 @@
 .ant-menu {
-  background-color: #e5e5ff;
-  box-shadow: 0 2px 4px -3px rgba(0, 0, 0, 0.2);
+  border: none;
   font-size: 1.1em;
 
   .ant-menu-item {
     margin-left: 1em;
     margin-right: 1em;
+
+    &:hover {
+      border-bottom: 2px solid $bright-blue;
+    }
   }
 
   .ant-badge {
@@ -25,5 +28,5 @@
 }
 
 .ant-menu-horizontal {
-  line-height: 4em;
+  line-height: 3em;
 }

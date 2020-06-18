@@ -39,7 +39,7 @@ form {
       }
 
       &:hover {
-        border: 1px solid #1337ff;
+        border: 1px solid $bright-blue;
       }
     }
   }
@@ -58,7 +58,7 @@ form {
     width: 100%;
 
     &:hover {
-      background-color: #1337ff;
+      background-color: $bright-blue;
       opacity: 0.8;
     }
   }
