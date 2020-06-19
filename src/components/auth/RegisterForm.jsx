@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Axios from 'axios';
 
 const RegisterForm = () => {
   const [form, setForm] = useState({
@@ -6,10 +7,17 @@ const RegisterForm = () => {
     password: '',
     passwordConfirmation: ''
   });
+  const [error, setError] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+
+    Axios
+      .post('/api/register', {
+        form
+      })
+      .then(res => console.log(res))
+      .catch(err => setError(err.response.data.error))
   }
 
   return (
@@ -58,6 +66,12 @@ const RegisterForm = () => {
           </div>
 
         </fieldset>
+
+        {
+          error ?
+          error.message : null
+        }
+
         <button
           form="myForm"
           key="submit"

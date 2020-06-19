@@ -15,7 +15,7 @@ router.route('/login')
   // .post(auth.login);
 
 router.route('/register')
-  // .post(auth.register);
+  .post(auth.register);
 
 router.all('/*', (req, res) => res.notFound());
 
