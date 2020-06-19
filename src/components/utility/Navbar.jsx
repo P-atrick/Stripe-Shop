@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Badge, Menu } from 'antd';
 import { HomeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { AppContext } from '../../Context';
+import Auth from '../../lib/Auth';
 
 const Navbar = () => {
   const [state] = useContext(AppContext);
@@ -27,9 +28,26 @@ const Navbar = () => {
         </Link>
       </Menu.Item>
 
-      <Menu.Item key="login" style={{ float: 'right' }}>
-        <Link to="/login">Login</Link>
-      </Menu.Item>
+      {
+        !Auth.isAuthenticated() &&
+        <Menu.Item key="login" style={{ float: 'right' }}>
+          <Link to="/login">Login</Link>
+        </Menu.Item>
+      }
+
+      {
+        Auth.isAuthenticated() &&
+        <Menu.Item key="account" style={{ float: 'right' }}>
+          <Link to="/myaccount">Account</Link>
+        </Menu.Item>
+      }
+
+      {
+        Auth.isAuthenticated() &&
+        <Menu.Item key="account" style={{ float: 'right' }}>
+          <a onClick={Auth.logout()}>Logout</a>
+        </Menu.Item>
+      }
     </Menu>
   );
 };

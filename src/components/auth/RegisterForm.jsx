@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
+import Auth from '../../lib/Auth';
 
 const RegisterForm = () => {
   const [form, setForm] = useState({
@@ -16,7 +17,9 @@ const RegisterForm = () => {
       .post('/api/register', {
         form
       })
-      .then(res => console.log(res))
+      .then(res => {
+        Auth.setToken(res.data.token);
+      })
       .catch(err => setError(err.response.data.error))
   }
 

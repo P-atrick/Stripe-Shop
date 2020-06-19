@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
+import Axios from 'axios';
+import Auth from '../../lib/Auth';
 
 const LoginForm = () => {
   const [form, setForm] = useState({
     email: '',
     password: ''
   });
+  const [error, setError] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+
+    Axios
+      .post('/api/login', {
+        form
+      })
+      .then(res => {
+        Auth.setToken(res.data.token);
+      })
+      .catch(err => setError(err.response.data.error))
   }
 
   return (
@@ -43,6 +54,11 @@ const LoginForm = () => {
               onChange={(e) => setForm({ ...form, password: e.target.value })}
             />
           </div>
+
+        {
+          error ?
+          error.message : null
+        }
 
         <button
           form="myForm"

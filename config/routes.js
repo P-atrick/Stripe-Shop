@@ -12,7 +12,7 @@ router.route('/checkout/ordercomplete')
   .post(checkout.completeOrder);
 
 router.route('/login')
-  // .post(auth.login);
+  .post(auth.login);
 
 router.route('/register')
   .post(auth.register);
