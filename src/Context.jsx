@@ -3,11 +3,16 @@ import React, { useState } from 'react';
 const AppContext = React.createContext([{}, () => {}]);
 
 const AppContextProvider = ({ children }) => {
-  const localState = JSON.parse(localStorage.getItem('storeData'));
+  const localStoreState = JSON.parse(localStorage.getItem('storeData'));
+  const localState = {
+    ...localStoreState,
+    isAuthenticated: !!localStorage.getItem('token')
+  }
 
   const initialState = {
     cart: {},
     totalPrice: 0,
+    isAuthenticated: false,
   };
 
   const [state, setState] = useState(localState || initialState);

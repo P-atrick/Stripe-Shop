@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import Auth from '../../lib/Auth';
+import { AppContext } from '../../Context';
 
 const LoginForm = () => {
+  const [state, setState] = useContext(AppContext);
   const [form, setForm] = useState({
     email: '',
     password: ''
@@ -20,6 +22,10 @@ const LoginForm = () => {
       })
       .then(res => {
         Auth.setToken(res.data.token)
+        setState({
+          ...state,
+          isAuthenticated: true,
+        })
         history.push('/')
       })
       .catch(err => setError(err.response.data.error))
