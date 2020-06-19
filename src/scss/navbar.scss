@@ -3,11 +3,25 @@
   font-size: 1.1em;
 
   .ant-menu-item {
-    margin-left: 1em;
-    margin-right: 1em;
+    border: none;
+    color: #000;
 
     &:hover {
-      border-bottom: 2px solid $bright-blue;
+      border: none;
+    }
+
+    a {
+      color: #000;
+
+      &:hover {
+        color: $bright-blue;
+      }
+    }
+
+    .anticon-home {
+      font-size: 24px;
+      margin-left: .5em;
+      padding-top: 10px;
     }
   }
 

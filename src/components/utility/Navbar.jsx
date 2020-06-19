@@ -12,8 +12,8 @@ const Navbar = () => {
       mode="horizontal"
       selectable={false}
     >
-      <Menu.Item key="home" icon={<HomeOutlined />}>
-        <Link to="/">Home</Link>
+      <Menu.Item key="home">
+        <Link to="/"><HomeOutlined /></Link>
       </Menu.Item>
 
       <Menu.Item key="cart" icon={<ShoppingCartOutlined />} style={{ float: 'right' }}>
