@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import Auth from '../../lib/Auth';
 
@@ -8,6 +9,7 @@ const LoginForm = () => {
     password: ''
   });
   const [error, setError] = useState();
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +19,8 @@ const LoginForm = () => {
         form
       })
       .then(res => {
-        Auth.setToken(res.data.token);
+        Auth.setToken(res.data.token)
+        history.push('/')
       })
       .catch(err => setError(err.response.data.error))
   }

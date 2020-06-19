@@ -7,7 +7,6 @@ import Auth from '../../lib/Auth';
 
 const Navbar = () => {
   const [state] = useContext(AppContext);
-
   return (
     <Menu
       mode="horizontal"
@@ -39,13 +38,6 @@ const Navbar = () => {
         Auth.isAuthenticated() &&
         <Menu.Item key="account" style={{ float: 'right' }}>
           <Link to="/myaccount">Account</Link>
-        </Menu.Item>
-      }
-
-      {
-        Auth.isAuthenticated() &&
-        <Menu.Item key="account" style={{ float: 'right' }}>
-          <a onClick={Auth.logout()}>Logout</a>
         </Menu.Item>
       }
     </Menu>
