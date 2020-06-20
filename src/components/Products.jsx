@@ -4,8 +4,10 @@ import { AppContext } from '../Context';
 import productsData from '../Data/productsData';
 import formatPrice from './utility/FormatPrice';
 import persistState from './utility/PersistState';
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
-const Products = () => {
+const Products = (props) => {
   const [state, setState] = useContext(AppContext);
 
   const addToCartNew = (productId, productName, productPrice) => {
@@ -53,30 +55,53 @@ const Products = () => {
     persistState(state);
   }, [state]);
 
+  if (props.location.toastMessage) {
+    toast.success(props.location.toastMessage, {
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+  }
+
   return (
-    <div className="productsContainer">
-      {productsData.map((product) => (
-        <Card
-          className="productCard"
-          cover={<img alt={`${product.name}`} src={require(`../../public/assets/product-images/${product.image}`)} />}
-          hoverable
-          key={product.id}
-          style={{ width: '100' }}
-        >
-          <p className="productName">{ product.name }</p>
-          <p>
-            £
-            { formatPrice(product.price) }
-          </p>
-          <Button
-            onClick={() => initiateAddToCart(product)}
-            type="primary"
-            block
+    <div>
+      <ToastContainer
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+      />
+      <div className="productsContainer">
+        {productsData.map((product) => (
+          <Card
+            className="productCard"
+            cover={<img alt={`${product.name}`} src={require(`../../public/assets/product-images/${product.image}`)} />}
+            hoverable
+            key={product.id}
+            style={{ width: '100' }}
           >
-            Add to cart
-          </Button>
-        </Card>
-      ))}
+            <p className="productName">{ product.name }</p>
+            <p>
+              £
+              { formatPrice(product.price) }
+            </p>
+            <Button
+              onClick={() => initiateAddToCart(product)}
+              type="primary"
+              block
+            >
+              Add to cart
+            </Button>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };

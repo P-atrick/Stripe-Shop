@@ -28,7 +28,10 @@ const RegisterForm = () => {
           ...state,
           isAuthenticated: true,
         });
-        history.push('/');
+        history.push({
+          pathname: '/',
+          toastMessage: 'Successfully registered',
+        });
       })
       .catch((err) => setError(err.response.data.error));
   };
