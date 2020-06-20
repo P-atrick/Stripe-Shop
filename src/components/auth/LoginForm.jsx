@@ -15,6 +15,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
 
     Axios
       .post('/api/login', {

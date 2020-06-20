@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import Auth from '../../lib/Auth';
+import { AppContext } from '../../Context';
 
 const RegisterForm = () => {
+  const [state, setState] = useContext(AppContext);
   const [form, setForm] = useState({
     email: '',
     password: '',
     passwordConfirmation: '',
   });
   const [error, setError] = useState();
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
 
     Axios
       .post('/api/register', {
@@ -19,6 +24,11 @@ const RegisterForm = () => {
       })
       .then((res) => {
         Auth.setToken(res.data.token);
+        setState({
+          ...state,
+          isAuthenticated: true,
+        });
+        history.push('/');
       })
       .catch((err) => setError(err.response.data.error));
   };
