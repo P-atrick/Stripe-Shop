@@ -7,7 +7,7 @@ router.route('/checkout/createorder')
 
 router.route('/checkout/createpayment')
   .post(checkout.createPaymentIntent);
-  
+
 router.route('/checkout/ordercomplete')
   .post(checkout.completeOrder);
 

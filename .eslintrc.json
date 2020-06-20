@@ -7,7 +7,17 @@
     "extends": "airbnb",
     "rules": {
         "indent": ["error", 2],
-        "quotes": ["single", { "allowTemplateLiterals": true }]
+        "quotes": [2, "single", {
+            "allowTemplateLiterals": true,
+            "avoidEscape": true
+            }
+        ],
+        "jsx-quotes": [0],
+        "jsx-a11y/label-has-associated-control": [ 2, {
+            "required": {
+                "some": [ "nesting", "id" ]
+            }
+        }]
     },
     "ignorePatterns": ["public", "node_modules", "test"]
 }

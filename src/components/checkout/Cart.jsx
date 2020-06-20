@@ -17,27 +17,27 @@ const Cart = () => {
       })
       .then(async (res) => {
         await res.data.clientSecret;
-        setState({ ...state, token: res.data.clientSecret, id: id });
+        setState({ ...state, token: res.data.clientSecret, id });
       });
-      setAllowContinue(false);
-  }
+    setAllowContinue(false);
+  };
 
   const createOrder = () => {
     // Save order to DB
     Axios
-    .post('/api/checkout/createorder', {
-      cart: state.cart,
-      totalPrice: state.totalPrice
-    })
-    .then(res => {
+      .post('/api/checkout/createorder', {
+        cart: state.cart,
+        totalPrice: state.totalPrice,
+      })
+      .then((res) => {
       // If the DB saved the order, create payment intent
-      if (res.status === 200) {
-        createpaymentIntent(res.data.id);
-      // If the DB hit an error, console log the error
-      } else {
-        console.log('Received error when saving order to database');
-      }
-    })
+        if (res.status === 200) {
+          createpaymentIntent(res.data.id);
+          // If the DB hit an error, console log the error
+        } else {
+          console.log('Received error when saving order to database');
+        }
+      });
   };
 
   useEffect(() => {

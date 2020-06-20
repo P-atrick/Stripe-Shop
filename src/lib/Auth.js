@@ -1,5 +1,4 @@
-class Auth  {
-
+class Auth {
   static setToken(token) {
     return localStorage.setItem('token', token);
   }
@@ -18,7 +17,7 @@ class Auth  {
 
   static getPayload() {
     const token = this.getToken();
-    if(!token) return null;
+    if (!token) return null;
     return JSON.parse(atob(token.split('.')[1]));
   }
 }

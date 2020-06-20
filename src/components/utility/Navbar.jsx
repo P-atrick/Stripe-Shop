@@ -14,9 +14,10 @@ const Navbar = () => {
     setState({
       ...state,
       isAuthenticated: false,
-    })
+    });
     history.push('/');
-  }
+  };
+
   return (
     <Menu
       mode="horizontal"
@@ -38,17 +39,21 @@ const Navbar = () => {
       </Menu.Item>
 
       {
-        !state.isAuthenticated &&
-        <Menu.Item key="login" style={{ float: 'right' }}>
-          <Link to="/login">Login</Link>
-        </Menu.Item>
+        !state.isAuthenticated
+        && (
+          <Menu.Item key="login" style={{ float: 'right' }}>
+            <Link to="/login">Login</Link>
+          </Menu.Item>
+        )
       }
 
       {
-        state.isAuthenticated &&
-        <Menu.Item key="account" style={{ float: 'right' }}>
-          <Link to="/myaccount">Account</Link>
-        </Menu.Item>
+        state.isAuthenticated
+        && (
+          <Menu.Item key="account" style={{ float: 'right' }}>
+            <Link to="/myaccount">Account</Link>
+          </Menu.Item>
+        )
       }
     </Menu>
   );

@@ -6,8 +6,8 @@ const AppContextProvider = ({ children }) => {
   const localStoreState = JSON.parse(localStorage.getItem('storeData'));
   const localState = {
     ...localStoreState,
-    isAuthenticated: !!localStorage.getItem('token')
-  }
+    isAuthenticated: !!localStorage.getItem('token'),
+  };
 
   const initialState = {
     cart: {},

@@ -42,7 +42,6 @@ const CheckoutForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setPaymentProcessing(true);
-    const customerEmail = form.email;
 
     const result = await stripe.confirmCardPayment(state.token, {
       payment_method: {
@@ -74,16 +73,16 @@ const CheckoutForm = () => {
             cart: state.cart,
             chargedPrice: result.paymentIntent.amount,
             customerEmail: result.paymentIntent.receipt_email,
-            paymentId: result.paymentIntent.id
+            paymentId: result.paymentIntent.id,
           });
 
-          setState({
-            ...state,
-            token: '',
-            cart: {},
-            totalPrice: 0,
-            id: ''
-          });
+        setState({
+          ...state,
+          token: '',
+          cart: {},
+          totalPrice: 0,
+          id: '',
+        });
 
         history.push('/ordercomplete');
 

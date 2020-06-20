@@ -6,7 +6,7 @@ const RegisterForm = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
-    passwordConfirmation: ''
+    passwordConfirmation: '',
   });
   const [error, setError] = useState();
 
@@ -15,13 +15,13 @@ const RegisterForm = () => {
 
     Axios
       .post('/api/register', {
-        form
+        form,
       })
-      .then(res => {
+      .then((res) => {
         Auth.setToken(res.data.token);
       })
-      .catch(err => setError(err.response.data.error))
-  }
+      .catch((err) => setError(err.response.data.error));
+  };
 
   return (
     <div>
@@ -30,12 +30,14 @@ const RegisterForm = () => {
         onSubmit={handleSubmit}
       >
         <fieldset>
-        <div className='formTitle'>Register</div>
+          <div className='formTitle'>Register</div>
 
           <div className="formItem">
             <label
               htmlFor="email"
-            >Email Address</label>
+            >
+              Email Address
+            </label>
             <input
               id="email"
               type="text"
@@ -47,7 +49,9 @@ const RegisterForm = () => {
           <div className="formItem">
             <label
               htmlFor="password"
-            >Password</label>
+            >
+              Password
+            </label>
             <input
               id="password"
               type="password"
@@ -59,7 +63,9 @@ const RegisterForm = () => {
           <div className="formItem">
             <label
               htmlFor="passwordConfirmation"
-            >Password Confirmation</label>
+            >
+              Password Confirmation
+            </label>
             <input
               id="passwordConfirmation"
               type="password"
@@ -71,15 +77,16 @@ const RegisterForm = () => {
         </fieldset>
 
         {
-          error ?
-          error.message : null
+          error
+            ? error.message : null
         }
 
         <button
           form="myForm"
           key="submit"
           type="submit"
-        >Register
+        >
+          Register
         </button>
       </form>
     </div>

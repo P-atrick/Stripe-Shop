@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { Pool } = require('pg');
+const { query } = require('express');
 const {
   secret,
   pgUser,
@@ -9,8 +10,6 @@ const {
   pgPassword,
   pgPort,
 } = require('../config/environment');
-const { query } = require('express');
-const { Redirect } = require('react-router-dom');
 
 const pool = new Pool({
   user: pgUser,
@@ -24,33 +23,34 @@ const register = async (req, res) => {
   const { form } = req.body;
   const { email, password, passwordConfirmation } = form;
 
-  const timestamp = Date.now()
+  const timestamp = Date.now();
   const minimumPasswordLength = 8;
 
   const userExistsQueryString = `SELECT * FROM users WHERE email_address = '${email}'`;
   const userAlreadyExists = await pool
     .query(userExistsQueryString)
-    .then(queryRes => { return !!queryRes.rows.length })
-  
+    .then((queryRes) => { return !!queryRes.rows.length; });
+
   if (userAlreadyExists) {
-    res.status(400)
-    res.send({ error: { message: 'This email is already registered' } })
-    return
+    res.status(400);
+    res.send({ error: { message: 'This email is already registered' } });
+    return;
   }
 
   if (password !== passwordConfirmation) {
-    res.status(400)
-    res.send({ error: { message: 'Passwords do not match' } })
-    return
+    res.status(400);
+    res.send({ error: { message: 'Passwords do not match' } });
+    return;
   }
 
-  if (password.length < minimumPasswordLength || passwordConfirmation.length < minimumPasswordLength) {
-    res.status(400)
-    res.send({ error: { message: `Password must be ${minimumPasswordLength} or more characters` } })
-    return
+  if (password.length < minimumPasswordLength
+    || passwordConfirmation.length < minimumPasswordLength) {
+    res.status(400);
+    res.send({ error: { message: `Password must be ${minimumPasswordLength} or more characters` } });
+    return;
   }
 
-  passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
   const queryString = `INSERT INTO users(
       email_address,
@@ -78,7 +78,7 @@ const register = async (req, res) => {
       res.status(200).send({ token });
     }
   });
-}
+};
 
 const login = async (req, res) => {
   const { form } = req.body;
@@ -94,19 +94,19 @@ const login = async (req, res) => {
       const user = queryRes.rows[0];
       const passwordHash = user.password_hash;
       const validatePassword = bcrypt.compareSync(password, passwordHash);
-      
+
       if (!validatePassword) {
-        res.status(401).send({ error: { message: 'Email and/or password incorrect' }});
-        return
+        res.status(401).send({ error: { message: 'Email and/or password incorrect' } });
+        return;
       }
 
       const token = jwt.sign({ userId: user.user_id }, secret, { expiresIn: '1hr' });
       res.status(200).send({ token });
     }
   });
-}
+};
 
 module.exports = {
   register,
-  login
-}
+  login,
+};

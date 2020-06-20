@@ -7,22 +7,22 @@ const { sendFromEmail, sendFromPass } = require('../config/environment');
 const sendConfirmationEmail = (variables) => {
   const { cart, formattedChargedPrice, customerEmail } = variables;
 
-  const readHTMLFile = function(path, callback) {
-    fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
-        if (err) {
-          throw err;
-          callback(err);
-        }
-        else {
-          callback(null, html);
-        }
+  const readHTMLFile = function (path, callback) {
+    fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
+      if (err) {
+        throw err;
+        callback(err);
+      }
+      else {
+        callback(null, html);
+      }
     });
   };
 
-  readHTMLFile(path.resolve(__dirname, '../src/assets/emails/orderConfirmation.hbs'), function(err, html) {
+  readHTMLFile(path.resolve(__dirname, '../src/assets/emails/orderConfirmation.hbs'), function (err, html) {
     const template = handlebars.compile(html);
     const replacements = {
-      formattedChargedPrice
+      formattedChargedPrice,
     };
     const htmlToSend = template(replacements);
 
@@ -31,21 +31,21 @@ const sendConfirmationEmail = (variables) => {
       service: 'gmail',
       auth: {
         user: sendFromEmail,
-        pass: sendFromPass
-      }
+        pass: sendFromPass,
+      },
     });
 
     const mailOptions = {
       from: {
         name: 'Patrick Kelly',
-        address: sendFromEmail
+        address: sendFromEmail,
       },
       to: customerEmail,
       subject: 'Nodemailer Test',
-      html: htmlToSend
+      html: htmlToSend,
     };
 
-     transporter.sendMail(mailOptions, function(error, info){
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
@@ -55,6 +55,6 @@ const sendConfirmationEmail = (variables) => {
   });
 };
 
-module.exports ={
-  sendConfirmationEmail
+module.exports = {
+  sendConfirmationEmail,
 };

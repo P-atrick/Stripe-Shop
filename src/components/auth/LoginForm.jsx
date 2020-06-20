@@ -8,7 +8,7 @@ const LoginForm = () => {
   const [state, setState] = useContext(AppContext);
   const [form, setForm] = useState({
     email: '',
-    password: ''
+    password: '',
   });
   const [error, setError] = useState();
   const history = useHistory();
@@ -18,18 +18,18 @@ const LoginForm = () => {
 
     Axios
       .post('/api/login', {
-        form
+        form,
       })
-      .then(res => {
-        Auth.setToken(res.data.token)
+      .then((res) => {
+        Auth.setToken(res.data.token);
         setState({
           ...state,
           isAuthenticated: true,
-        })
-        history.push('/')
+        });
+        history.push('/');
       })
-      .catch(err => setError(err.response.data.error))
-  }
+      .catch((err) => setError(err.response.data.error));
+  };
 
   return (
     <div>
@@ -43,7 +43,9 @@ const LoginForm = () => {
           <div className='formItem'>
             <label
               htmlFor="email"
-            >Email Address</label>
+            >
+              Email Address
+            </label>
             <input
               id="email"
               type="text"
@@ -55,7 +57,9 @@ const LoginForm = () => {
           <div className='formItem'>
             <label
               htmlFor="password"
-            >Password</label>
+            >
+              Password
+            </label>
             <input
               id="password"
               type="password"
@@ -64,17 +68,18 @@ const LoginForm = () => {
             />
           </div>
 
-        {
-          error ?
-          error.message : null
-        }
+          {
+            error
+              ? error.message : null
+          }
 
-        <button
-          form="myForm"
-          key="submit"
-          type="submit"
-        >Login
-        </button>
+          <button
+            form="myForm"
+            key="submit"
+            type="submit"
+          >
+            Login
+          </button>
 
         </fieldset>
       </form>

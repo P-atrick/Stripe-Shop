@@ -18,7 +18,7 @@ const pool = new Pool({
   port: pgPort,
 });
 
-const createOrderDbEntry = async (req, res, next) => {
+const createOrderDbEntry = async (req, res) => {
   const { cart, totalPrice } = req.body;
 
   const queryString = `INSERT INTO orders(
@@ -38,8 +38,8 @@ const createOrderDbEntry = async (req, res, next) => {
       res.sendStatus(500);
     } else {
       console.log(`Created ${queryRes.rowCount} new rows.`);
-      res.status(200)
-      res.send({ id: queryRes.rows[0].order_id })
+      res.status(200);
+      res.send({ id: queryRes.rows[0].order_id });
     }
   });
 };
@@ -57,12 +57,14 @@ const createPaymentIntent = async (req, res) => {
 };
 
 const completeOrder = async (req, res) => {
-  const { id, cart, chargedPrice, customerEmail, paymentId } = req.body;
+  const {
+    id, cart, chargedPrice, customerEmail, paymentId,
+  } = req.body;
   const formattedChargedPrice = (chargedPrice / 100).toFixed(2);
 
   sendEmail.sendConfirmationEmail({ cart, formattedChargedPrice, customerEmail });
 
-  const queryString = `UPDATE orders SET charged_price = ${chargedPrice}, customer_email = '${customerEmail}', payment_id = '${paymentId}' WHERE order_id = ${id} RETURNING *`
+  const queryString = `UPDATE orders SET charged_price = ${chargedPrice}, customer_email = '${customerEmail}', payment_id = '${paymentId}' WHERE order_id = ${id} RETURNING *`;
   await pool.query(queryString, (err, queryRes) => {
     if (err) {
       console.log(err);
@@ -72,10 +74,10 @@ const completeOrder = async (req, res) => {
       res.sendStatus(200);
     }
   });
-}
+};
 
 module.exports = {
   createOrderDbEntry,
   createPaymentIntent,
-  completeOrder
+  completeOrder,
 };
