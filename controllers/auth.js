@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { Pool } = require('pg');
-const { query } = require('express');
 const {
   secret,
   pgUser,
@@ -26,10 +25,11 @@ const register = async (req, res) => {
   const timestamp = Date.now();
   const minimumPasswordLength = 8;
 
-  const userExistsQueryString = `SELECT * FROM users WHERE email_address = '${email}'`;
+  const queryStringUserExists = 'SELECT * FROM users WHERE email_address = $1';
+  const queryParamsUserExists = [email];
   const userAlreadyExists = await pool
-    .query(userExistsQueryString)
-    .then((queryRes) => { return !!queryRes.rows.length; });
+    .query(queryStringUserExists, queryParamsUserExists)
+    .then((queryRes) => !!queryRes.rows.length);
 
   if (userAlreadyExists) {
     res.status(400);
@@ -52,22 +52,10 @@ const register = async (req, res) => {
 
   const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-  const queryString = `INSERT INTO users(
-      email_address,
-      created_at,
-      is_active,
-      is_premium,
-      password_hash
-    ) VALUES(
-      '${email}',
-      to_timestamp(${timestamp} / 1000.0),
-      true,
-      false,
-      '${passwordHash}'
-    )
-    RETURNING *`;
+  const queryStringCreateUser = 'INSERT INTO users(email_address, created_at, is_active, is_premium, password_hash) VALUES($1, to_timestamp($2 / 1000.0), true, false, $3) RETURNING *';
+  const queryParamsCreateUser = [email, timestamp, passwordHash];
 
-  await pool.query(queryString, (err, queryRes) => {
+  await pool.query(queryStringCreateUser, queryParamsCreateUser, (err, queryRes) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);
@@ -84,9 +72,10 @@ const login = async (req, res) => {
   const { form } = req.body;
   const { email, password } = form;
 
-  const queryString = `SELECT * FROM users WHERE email_address = '${email}'`;
+  const queryStringLogin = 'SELECT * FROM users WHERE email_address = $1';
+  const queryParamsLogin = [email];
 
-  await pool.query(queryString, (err, queryRes) => {
+  await pool.query(queryStringLogin, queryParamsLogin, (err, queryRes) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);

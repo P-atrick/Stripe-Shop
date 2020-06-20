@@ -21,18 +21,10 @@ const pool = new Pool({
 const createOrderDbEntry = async (req, res) => {
   const { cart, totalPrice } = req.body;
 
-  const queryString = `INSERT INTO orders(
-      total_price,
-      cart,
-      payment_received
-    ) VALUES(
-      ${totalPrice},
-      '${JSON.stringify(cart)}',
-      false
-    )
-    RETURNING *`;
+  const queryStringCreateOrder = 'INSERT INTO orders(total_price, cart, payment_received) VALUES($1, $2, false) RETURNING *';
+  const queryParamsCreateOrder = [totalPrice, JSON.stringify(cart)];
 
-  await pool.query(queryString, (err, queryRes) => {
+  await pool.query(queryStringCreateOrder, queryParamsCreateOrder, (err, queryRes) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);
@@ -64,8 +56,10 @@ const completeOrder = async (req, res) => {
 
   sendEmail.sendConfirmationEmail({ cart, formattedChargedPrice, customerEmail });
 
-  const queryString = `UPDATE orders SET charged_price = ${chargedPrice}, customer_email = '${customerEmail}', payment_id = '${paymentId}' WHERE order_id = ${id} RETURNING *`;
-  await pool.query(queryString, (err, queryRes) => {
+  const queryStringUpdateOrder = 'UPDATE orders SET charged_price = $1, customer_email = $2, payment_id = $3 WHERE order_id = $4 RETURNING *';
+  const queryParamsUpdateOrder = [chargedPrice, customerEmail, paymentId, id];
+
+  await pool.query(queryStringUpdateOrder, queryParamsUpdateOrder, (err, queryRes) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);
