@@ -2,12 +2,19 @@ import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from 'antd';
 import { AppContext } from '../Context';
+import ErrorDisplay from './error/ErrorDisplay';
 import productsData from '../Data/productsData';
 import formatPrice from './utility/FormatPrice';
 import persistState from './utility/PersistState';
 
 const ProductPage = () => {
   const { productId } = useParams();
+  if (!productId || !productsData[productId - 1]) {
+    return (
+      <ErrorDisplay status={404} />
+    );
+  }
+
   const product = productsData[productId - 1];
   const [state, setState] = useContext(AppContext);
 
