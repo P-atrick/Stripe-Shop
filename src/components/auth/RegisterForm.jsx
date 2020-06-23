@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
+import { LoadingOutlined } from '@ant-design/icons';
 import Auth from '../../lib/Auth';
 import { AppContext } from '../../Context';
 
 const RegisterForm = () => {
   const [state, setState] = useContext(AppContext);
+  const [registerProcessing, setRegisterProcessing] = useState(false);
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -16,6 +18,7 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setRegisterProcessing(true);
     setError('');
 
     Axios
@@ -33,7 +36,7 @@ const RegisterForm = () => {
           toastMessage: 'Successfully registered',
         });
       })
-      .catch((err) => setError(err.response.data.error));
+      .catch((err) => setError(err.response.data.error), setRegisterProcessing(false));
   };
 
   return (
@@ -95,11 +98,14 @@ const RegisterForm = () => {
         }
 
         <button
+          disabled={registerProcessing}
           form="myForm"
           key="submit"
           type="submit"
         >
-          Register
+          {
+            registerProcessing ? <LoadingOutlined /> : 'Register'
+          }
         </button>
       </form>
     </div>

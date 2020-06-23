@@ -10,11 +10,11 @@ const Navbar = () => {
   const history = useHistory();
 
   const logout = () => {
-    Auth.logout();
     setState({
       ...state,
       isAuthenticated: false,
     });
+    Auth.logout();
     history.push('/');
   };
 
@@ -26,6 +26,15 @@ const Navbar = () => {
       <Menu.Item key="home">
         <Link to="/"><HomeOutlined /></Link>
       </Menu.Item>
+
+      {
+        state.isAuthenticated
+        && (
+          <Menu.Item key="account" style={{ float: 'right' }}>
+            <button type='button' onClick={() => logout()}>Logout</button>
+          </Menu.Item>
+        )
+      }
 
       <Menu.Item key="cart" icon={<ShoppingCartOutlined />} style={{ float: 'right' }}>
         <Link to="/cart">

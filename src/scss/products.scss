@@ -21,5 +21,14 @@
       font-weight: bold;
       font-size: 1.4em;
     }
+
+    .ant-btn-primary {
+      background-color: $primary-blue;
+      border-color: $primary-blue;
+
+      &:hover {
+        background-color: lighten($primary-blue, 10%);
+      }
+    }
   }
 }
