@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Products = (props) => {
   let { toastMessage } = props;
 
-  if (toastMessage) {
+  if (toastMessage2) {
     toast.configure();
     toast.success(toastMessage, {
       autoClose: 3000,
